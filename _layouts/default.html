@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% if page.url == '/' %}{{ page.title }}{% elsif page.title %}{{ page.title }} | 우아학군{% else %}우아학군 - 아파트 학군·초품아 학교 찾기{% endif %}</title>
   <meta name="description" content="{% if page.description %}{{ page.description | escape }}{% else %}{{ site.description | strip_newlines | escape }}{% endif %}">
+  <meta name="naver-site-verification" content="76671391a04c8e52cafb4376aeb7788c5e90b511" />
   <link rel="canonical" href="{{ page.url | absolute_url }}">
 
   <meta property="og:type" content="{% if page.layout == 'school' or page.layout == 'apt' %}article{% else %}website{% endif %}">
