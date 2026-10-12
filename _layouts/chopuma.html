@@ -1,0 +1,60 @@
+---
+layout: default
+---
+
+<div class="page-with-sidebar">
+<div class="region-page">
+
+  <nav class="breadcrumb" aria-label="위치">
+    <a href="/">홈</a>
+    <span>›</span>
+    {% if page.doShort %}<a href="/chopuma/">초품아</a>
+    <span>›</span>
+    {% if page.sigungu %}<a href="/chopuma/{{ page.doShort | uri_escape }}/">{{ page.doShort }}</a>
+    <span>›</span>
+    <span>{{ page.sigungu }}</span>{% else %}<span>{{ page.doShort }}</span>{% endif %}
+    {% else %}<span>초품아 아파트</span>{% endif %}
+  </nav>
+
+  <div class="region-page-header">
+    <h1>🎒 {{ page.scope }} 초품아 아파트 {{ page.count }}곳</h1>
+    <p>초등학교가 직선 300m 이내에 있는 단지 · 세대수 순</p>
+  </div>
+
+  <p class="summary-p">{{ page.summary }}</p>
+
+  <div class="ad-slot">
+    {% include ad.html %}
+  </div>
+
+  <div class="tbl-wrap"><table class="trade-tbl">
+    <thead><tr><th>단지</th><th>가장 가까운 초등학교</th><th>직선거리</th><th>세대수</th><th>준공</th><th>대표 평형 평균 매매가</th></tr></thead>
+    <tbody>{% for r in page.rows %}<tr><td><a href="{{ r.url }}">{{ r.name }}</a><br><small style="color:#6B7280;">{{ r.loc }}</small></td><td>{{ r.elem }}</td><td>{{ r.dist }} (도보 약 {{ r.walk }}분)</td><td>{% if r.ho > 0 %}{{ r.ho }}세대{% else %}-{% endif %}</td><td>{% if r.by > 0 %}{{ r.by }}년{% else %}-{% endif %}</td><td>{{ r.rep }}</td></tr>
+    {% endfor %}</tbody>
+  </table></div>
+
+  {% if page.doShort == nil %}
+  <h2 class="group-title">📍 지역별 초품아 아파트</h2>
+  <div class="chip-row">
+    {% for d in site.data.hak_stats.do_rows %}<a class="chip" href="/chopuma/{{ d.name | uri_escape }}/">{{ d.name }}<em>{{ d.chop }}</em></a>
+    {% endfor %}
+  </div>
+  {% elsif page.sigungu == nil %}
+  <p class="hub-links" style="margin-top:16px;"><a href="/region/{{ page.doShort | uri_escape }}/">{{ page.doShort }} 시군구별 학군 보기 →</a></p>
+  {% else %}
+  <p class="hub-links" style="margin-top:16px;"><a href="/region/{{ page.doShort | uri_escape }}/{{ page.sigungu | uri_escape }}/">{{ page.sigungu }} 학교·동네별 보기 →</a></p>
+  {% endif %}
+
+  <div class="tip-box">
+    <h2>초품아, 이렇게 보세요</h2>
+    <ul>
+      <li>'초품아'는 초등학교를 품은 아파트의 줄임말로, 이 사이트는 <strong>단지와 초등학교 사이 직선거리 300m 이내</strong>를 기준으로 분류했습니다.</li>
+      <li>단지와 학교 사이에 큰 도로·철도·하천이 있으면 실제 통학 거리는 훨씬 길 수 있으니 현장에서 통학로를 꼭 확인하세요.</li>
+      <li>학교 배정은 거리가 아니라 <strong>통학구역</strong>으로 정해지므로, 가까워도 다른 학교에 배정될 수 있습니다. 관할 교육지원청에 확인하세요.</li>
+    </ul>
+    <p class="hub-links" style="margin-top:10px;"><a href="/guide/">학군 고르는 방법 →</a></p>
+  </div>
+
+</div>
+<aside class="tool-sidebar"></aside>
+</div>

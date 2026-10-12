@@ -1,0 +1,63 @@
+---
+layout: default
+---
+
+<div class="page-with-sidebar">
+<div class="region-page">
+
+  <nav class="breadcrumb" aria-label="위치">
+    <a href="/">홈</a>
+    <span>›</span>
+    <a href="/region/{{ page.doShort | uri_escape }}/">{{ page.doShort }}</a>
+    <span>›</span>
+    <a href="/region/{{ page.doShort | uri_escape }}/{{ page.sigungu | uri_escape }}/">{{ page.sigungu }}</a>
+    <span>›</span>
+    <span>{{ page.dong }}</span>
+  </nav>
+
+  <div class="region-page-header">
+    <h1>🏫 {{ page.sigungu }} {{ page.dong }} 학군·초품아 아파트</h1>
+    <p>학교 {{ page.nSchools }}곳 · 아파트 단지 {{ page.nApts }}곳</p>
+  </div>
+
+  <p class="summary-p">{{ page.summary }}</p>
+
+  <div class="ad-slot">
+    {% include ad.html %}
+  </div>
+
+  {% if page.schoolRows.size > 0 %}
+  <h2 class="group-title">🏫 {{ page.dong }} 학교</h2>
+  <div class="tbl-wrap"><table class="trade-tbl">
+    <thead><tr><th>학교</th><th>학교급</th><th>설립</th><th>500m 내 단지</th><th>1km 내 단지</th></tr></thead>
+    <tbody>{% for s in page.schoolRows %}<tr><td><a href="{{ s.url }}">{{ s.name }}</a></td><td>{{ s.level }}</td><td>{{ s.type }}</td><td>{{ s.n500 }}곳</td><td>{{ s.n1k }}곳</td></tr>
+    {% endfor %}</tbody>
+  </table></div>
+  {% endif %}
+
+  {% if page.aptRows.size > 0 %}
+  <h2 class="group-title">🏢 {{ page.dong }} 아파트 단지 (초등학교 가까운 순)</h2>
+  <div class="tbl-wrap"><table class="trade-tbl">
+    <thead><tr><th>단지</th><th>가장 가까운 초등학교</th><th>직선거리</th><th>준공</th><th>세대수</th></tr></thead>
+    <tbody>{% for a in page.aptRows %}<tr><td><a href="{{ a.url }}">{{ a.name }}</a>{% if a.chop %} <span class="hi-badge" style="background:#E0E7FF;color:#3730A3;">초품아</span>{% endif %}</td><td>{{ a.elem }}</td><td>{{ a.dist }}</td><td>{% if a.by > 0 %}{{ a.by }}년{% else %}-{% endif %}</td><td>{% if a.ho > 0 %}{{ a.ho }}세대{% else %}-{% endif %}</td></tr>
+    {% endfor %}</tbody>
+  </table></div>
+  {% endif %}
+
+  {% if page.neighbors.size > 0 %}
+  <h2 class="group-title">📍 {{ page.sigungu }} 다른 동네</h2>
+  <div class="chip-row">
+    {% for n in page.neighbors %}<a class="chip" href="/region/{{ page.doShort | uri_escape }}/{{ page.sigungu | uri_escape }}/{{ n.name | uri_escape }}/">{{ n.name }}</a>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <div class="tip-box">
+    <h2>{{ page.dong }} 학군 확인 안내</h2>
+    <p>거리는 직선거리 기준 참고 정보입니다. 실제 학교 배정은 교육지원청이 고시한 통학구역에 따라 달라지니 입주·계약 전에 관할 교육지원청에서 확인하세요.</p>
+    <p class="hub-links" style="margin-top:10px;"><a href="/region/{{ page.doShort | uri_escape }}/{{ page.sigungu | uri_escape }}/">{{ page.sigungu }} 전체 →</a> <a href="https://wooaapt.wooahouse.com/region/{{ page.doShort | uri_escape }}/{{ page.sigungu | uri_escape }}/{{ page.dong | uri_escape }}/">{{ page.dong }} 아파트 실거래가 →</a></p>
+  </div>
+
+</div>
+<aside class="tool-sidebar"></aside>
+</div>

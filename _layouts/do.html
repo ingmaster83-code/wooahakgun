@@ -1,0 +1,46 @@
+---
+layout: default
+---
+
+<div class="page-with-sidebar">
+<div class="region-page">
+
+  <nav class="breadcrumb" aria-label="위치">
+    <a href="/">홈</a>
+    <span>›</span>
+    <a href="/region/">지역별</a>
+    <span>›</span>
+    <span>{{ page.doShort }}</span>
+  </nav>
+
+  <div class="region-page-header">
+    <h1>🏫 {{ page.doShort }} 학군·초품아 아파트</h1>
+    <p>학교 {{ page.nSchools }}곳 · 아파트 단지 {{ page.nApts }}곳</p>
+  </div>
+
+  <p class="summary-p">{{ page.summary }}</p>
+
+  <div class="ad-slot">
+    {% include ad.html %}
+  </div>
+
+  <p style="margin:8px 0 16px;"><a class="fr-map" href="/chopuma/{{ page.doShort | uri_escape }}/" style="display:inline-block;padding:9px 14px;">🎒 {{ page.doShort }} 초품아 아파트 전체 보기 →</a></p>
+
+  <div class="section-title" style="margin:8px 0 12px;">📍 시군구별</div>
+  <div class="region-grid">
+    {% for sg in page.sgRows %}
+    <a href="/region/{{ page.doShort | uri_escape }}/{{ sg.name | uri_escape }}/" class="region-btn">
+      <span class="region-icon">🏫</span>{{ sg.name }}
+      <div class="region-count">학교 {{ sg.schools }} · 단지 {{ sg.apts }}{% if sg.chop != "0" %} · 초품아 {{ sg.chop }}{% endif %}</div>
+    </a>
+    {% endfor %}
+  </div>
+
+  <div class="tip-box">
+    <h2>{{ page.doShort }} 학군 정보 안내</h2>
+    <p>한국교육시설안전원의 초·중·고등학교 위치와 국토교통부 아파트 단지 정보를 바탕으로, 단지에서 가까운 학교와 학교 주변 아파트를 직선거리로 정리했습니다. 실제 학교 배정(통학구역)은 교육지원청 고시를 따르므로 입주·계약 전에 반드시 확인하세요.</p>
+  </div>
+
+</div>
+<aside class="tool-sidebar"></aside>
+</div>

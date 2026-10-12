@@ -1,0 +1,47 @@
+---
+layout: default
+title: 학교·아파트 검색 - 학군 정보 찾기
+description: 아파트 단지 이름이나 학교 이름, 동네로 학군과 주변 학교 정보를 검색하세요. 예) 헬리오시티, 대치초등학교, 목동
+---
+
+<div class="section">
+  <nav class="breadcrumb"><a href="/">홈</a> <span>›</span> <span>검색</span></nav>
+  <h1 style="font-size:1.6rem;font-weight:800;margin:20px 0 24px;">🔍 학교·아파트 검색</h1>
+
+  <div class="search-wrap" style="max-width:100%;margin-bottom:24px;">
+    <input type="text" id="searchInput" class="search-input"
+           placeholder="예) 헬리오시티, 대치초등학교, 목동..."
+           autocomplete="off" style="border:1px solid #E5E7EB;">
+    <button class="search-btn" onclick="doSearch()">검색</button>
+  </div>
+
+  <p id="searchStatus" style="color:#6B7280;font-size:.87rem;margin-bottom:16px;">아파트 이름, 학교 이름, 동네 이름을 입력하세요.</p>
+  <ul class="office-list" id="resultList"></ul>
+</div>
+
+<script>
+let items = null;
+(async () => {
+  const resp = await fetch('/search_index.json');
+  items = await resp.json();
+  items.forEach(f => { f.h = (f.n + ' ' + f.l + ' ' + f.t).toLowerCase(); });
+  document.getElementById('searchStatus').textContent = `총 ${items.length.toLocaleString()}개 학교·아파트 검색 가능`;
+  const q = new URLSearchParams(location.search).get('q');
+  if (q) { document.getElementById('searchInput').value = q; doSearch(); }
+})();
+function esc(s) { return String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+function doSearch() {
+  const q = document.getElementById('searchInput').value.trim();
+  if (!q || !items) return;
+  const toks = q.toLowerCase().split(/\s+/).filter(Boolean);
+  const results = [];
+  for (const f of items) {
+    if (toks.every(t => f.h.includes(t))) { results.push(f); if (results.length >= 100) break; }
+  }
+  document.getElementById('searchStatus').textContent = `"${q}" 검색 결과: ${results.length}${results.length >= 100 ? '+' : ''}개`;
+  const list = document.getElementById('resultList');
+  if (results.length === 0) { list.innerHTML = '<li style="grid-column:1/-1;color:#6B7280;">검색 결과가 없습니다.</li>'; return; }
+  list.innerHTML = results.map(f => `<li><a href="${f.u}"><b>${esc(f.n)}</b><small>${esc(f.t)} · ${esc(f.l)}</small></a></li>`).join('');
+}
+document.getElementById('searchInput').addEventListener('keydown', e => { if (e.key === 'Enter') doSearch(); });
+</script>

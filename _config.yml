@@ -1,0 +1,34 @@
+title: 우아학군 - 아파트 학군·초품아 학교 찾기
+description: >-
+  우리 아파트에서 가까운 초·중·고등학교와 거리, 학교 주변 아파트, 초등학교 300m 이내 초품아 단지를
+  지역별로 한눈에 확인하세요. 전국 학교와 아파트 단지를 공공데이터로 정리했습니다.
+url: "https://wooahakgun.wooahouse.com"
+baseurl: ""
+lang: ko
+timezone: Asia/Seoul
+author: WooaHouse
+
+markdown: kramdown
+kramdown:
+  input: GFM
+  hard_wrap: false
+
+plugins:
+  - jekyll-seo-tag
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - scripts/
+  - data/
+  - "*.py"
+  - "*.log"
+  - README.md
+  - .gitignore
+  - .env
+  - vendor/
+  - _rawdata/
+
+# 설계 메모: scripts/build_data.py 가 학교(한국교육시설안전원)와 우아아파트 단지를 좌표로 연결해
+# _rawdata/schools.json · apts_{시도}.json 을 만들고, _plugins/school_generator.rb 가 학교·단지·허브·초품아 페이지를 생성한다.
+# 사이트맵은 플러그인이 40,000건씩 분할 생성. 거리는 직선거리(추정 도보 시간 포함)로 표기한다.

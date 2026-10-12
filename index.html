@@ -1,0 +1,109 @@
+---
+layout: default
+title: 우아학군 - 아파트 학군·초품아 학교 찾기 (초중고 주변 아파트)
+description: 우리 아파트에서 가까운 초·중·고등학교와 거리, 학교 주변 아파트, 초등학교 300m 이내 초품아 단지를 지역별로 찾아보세요. 전국 학교와 아파트 단지를 공공데이터로 정리했습니다.
+---
+
+<div class="hero">
+  <h1>우아학군 · 🏫 아파트 학군·초품아 찾기</h1>
+  <p>아파트 이름이나 학교 이름, 동네로 검색해 보세요 (예: 래미안, 대치초등학교, 목동)</p>
+  <div class="search-wrap">
+    <input type="text" id="searchInput" class="search-input"
+           placeholder="예) 헬리오시티, 대치초등학교, 목동..."
+           autocomplete="off" aria-label="아파트·학교 검색">
+    <button class="search-btn" onclick="doSearch()">🔍 검색</button>
+  </div>
+</div>
+
+<div class="page-with-sidebar">
+<div>
+<div id="search-results"></div>
+
+<div class="top-ad-bar">
+  {% include ad.html %}
+</div>
+
+<div class="section" style="padding-bottom:0;">
+  <div class="info-box">
+    💡 전국 초·중·고등학교 <strong>{{ site.data.hak_stats.schools }}곳</strong>과 아파트 단지 <strong>{{ site.data.hak_stats.apts }}곳</strong>의 위치를 비교해,
+    단지별 가까운 학교와 학교별 주변 아파트를 정리했습니다. 초등학교가 직선 300m 이내인 <strong>초품아 단지는 {{ site.data.hak_stats.chop }}곳</strong>입니다.
+  </div>
+</div>
+
+<div class="section">
+  <h2 class="section-title">🎒 초품아 아파트</h2>
+  <div class="tbl-wrap"><table class="trade-tbl">
+    <thead><tr><th>단지</th><th>가장 가까운 초등학교</th><th>직선거리</th><th>세대수</th></tr></thead>
+    <tbody>{% for r in site.data.hak_stats.top_chop %}<tr><td><a href="{{ r.url }}">{{ r.name }}</a><br><small style="color:#6B7280;">{{ r.loc }}</small></td><td>{{ r.elem }}</td><td>{{ r.dist }}</td><td>{% if r.ho > 0 %}{{ r.ho }}세대{% else %}-{% endif %}</td></tr>
+    {% endfor %}</tbody>
+  </table></div>
+  <p class="hub-links" style="margin-top:12px;"><a href="/chopuma/">초품아 아파트 전체 보기 →</a></p>
+</div>
+
+<div class="section">
+  <h2 class="section-title">📍 지역별로 찾기</h2>
+  <div class="region-grid">
+    {% for d in site.data.hak_stats.do_rows %}<a href="/region/{{ d.name | uri_escape }}/" class="region-btn"><span class="region-icon">🏫</span>{{ d.name }}
+      <div class="region-count">학교 {{ d.schools }} · 단지 {{ d.apts }}{% if d.chop != "0" %} · 초품아 {{ d.chop }}{% endif %}</div></a>
+    {% endfor %}
+  </div>
+</div>
+
+<div class="section">
+  <h2 class="section-title">📚 학교급별 현황</h2>
+  <div class="chip-row">
+    <span class="chip">초등학교<em>{{ site.data.hak_stats.elem }}</em></span>
+    <span class="chip">중학교<em>{{ site.data.hak_stats.mid }}</em></span>
+    <span class="chip">고등학교<em>{{ site.data.hak_stats.high }}</em></span>
+  </div>
+</div>
+
+<div class="section">
+  <h2 class="section-title">✅ 학군을 볼 때 확인하세요</h2>
+  <ul style="color:#374151;line-height:1.9;font-size:.93rem;padding-left:22px;">
+    <li>거리는 단지와 학교 사이의 <strong>직선거리</strong>이고, 도보 시간은 이를 바탕으로 한 추정치입니다.</li>
+    <li>학교 배정은 거리가 아니라 <strong>통학구역</strong>으로 정해집니다. 계약 전에 관할 교육지원청에서 꼭 확인하세요.</li>
+    <li>단지와 학교 사이에 큰 도로·철도·하천이 있으면 실제 통학 거리는 훨씬 길 수 있습니다.</li>
+  </ul>
+  <p style="margin-top:12px;"><a href="/guide/">학군 고르는 방법 자세히 보기 →</a></p>
+</div>
+
+</div>
+<aside class="tool-sidebar"></aside>
+</div>
+
+<script>
+let items = null;
+async function loadIndex() {
+  if (items) return;
+  const resp = await fetch('/search_index.json');
+  items = await resp.json();
+  items.forEach(f => { f.h = (f.n + ' ' + f.l + ' ' + f.t).toLowerCase(); });
+}
+function esc(s) { return String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+function doSearch() {
+  const q = document.getElementById('searchInput').value.trim();
+  const el = document.getElementById('search-results');
+  if (!q) { el.innerHTML = ''; return; }
+  el.innerHTML = '<p style="text-align:center;padding:20px;color:#6B7280;">검색 중...</p>';
+  loadIndex().then(() => {
+    const toks = q.toLowerCase().split(/\s+/).filter(Boolean);
+    const results = [];
+    for (const f of items) {
+      if (toks.every(t => f.h.includes(t))) { results.push(f); if (results.length >= 40) break; }
+    }
+    if (results.length === 0) {
+      el.innerHTML = '<p style="text-align:center;padding:20px;color:#6B7280;">검색 결과가 없습니다.</p>';
+      return;
+    }
+    el.innerHTML = `<div style="max-width:960px;margin:0 auto;padding:0 20px;">
+      <p style="padding:8px 0;font-size:.9rem;color:#6B7280;">"${esc(q)}" 검색 결과 ${results.length}${results.length >= 40 ? '+' : ''}개</p>
+      <ul class="office-list">${results.map(f => `<li><a href="${f.u}"><b>${esc(f.n)}</b><small>${esc(f.t)} · ${esc(f.l)}</small></a></li>`).join('')}</ul>
+    </div>`;
+    el.scrollIntoView({ behavior: 'smooth' });
+  });
+}
+document.getElementById('searchInput').addEventListener('keydown', e => { if (e.key === 'Enter') doSearch(); });
+const urlQ = new URLSearchParams(location.search).get('q');
+if (urlQ) { document.getElementById('searchInput').value = urlQ; doSearch(); }
+</script>

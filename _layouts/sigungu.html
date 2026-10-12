@@ -1,0 +1,62 @@
+---
+layout: default
+---
+
+<div class="page-with-sidebar">
+<div class="region-page">
+
+  <nav class="breadcrumb" aria-label="위치">
+    <a href="/">홈</a>
+    <span>›</span>
+    <a href="/region/{{ page.doShort | uri_escape }}/">{{ page.doShort }}</a>
+    <span>›</span>
+    <span>{{ page.sigungu }}</span>
+  </nav>
+
+  <div class="region-page-header">
+    <h1>🏫 {{ page.doShort }} {{ page.sigungu }} 학군·초품아 아파트</h1>
+    <p>학교 {{ page.nSchools }}곳 · 아파트 단지 {{ page.nApts }}곳 · 초품아 {{ page.nChop }}곳</p>
+  </div>
+
+  <p class="summary-p">{{ page.summary }}</p>
+
+  <div class="ad-slot">
+    {% include ad.html %}
+  </div>
+
+  {% if page.nChop >= 3 %}
+  <p style="margin:8px 0 16px;"><a class="fr-map" href="/chopuma/{{ page.doShort | uri_escape }}/{{ page.sigungu | uri_escape }}/" style="display:inline-block;padding:9px 14px;">🎒 {{ page.sigungu }} 초품아 아파트 전체 보기 →</a></p>
+  {% endif %}
+
+  <div class="chip-row">
+    {% for l in page.byLevel %}<span class="chip">{{ l.level }}<em>{{ l.n }}</em></span>{% endfor %}
+  </div>
+
+  {% if page.chopRows.size > 0 %}
+  <h2 class="group-title">🎒 {{ page.sigungu }} 초품아 아파트 (세대수 순)</h2>
+  <div class="tbl-wrap"><table class="trade-tbl">
+    <thead><tr><th>단지</th><th>가장 가까운 초등학교</th><th>직선거리</th><th>세대수</th><th>준공</th><th>대표 평형 평균 매매가</th></tr></thead>
+    <tbody>{% for r in page.chopRows %}<tr><td><a href="{{ r.url }}">{{ r.name }}</a><br><small style="color:#6B7280;">{{ r.loc }}</small></td><td>{{ r.elem }}</td><td>{{ r.dist }} (도보 약 {{ r.walk }}분)</td><td>{% if r.ho > 0 %}{{ r.ho }}세대{% else %}-{% endif %}</td><td>{% if r.by > 0 %}{{ r.by }}년{% else %}-{% endif %}</td><td>{{ r.rep }}</td></tr>
+    {% endfor %}</tbody>
+  </table></div>
+  {% endif %}
+
+  <h2 class="group-title">📍 {{ page.sigungu }} 동네별 학교·아파트</h2>
+  <div class="region-grid">
+    {% for d in page.dongRows %}
+    <a href="/region/{{ page.doShort | uri_escape }}/{{ page.sigungu | uri_escape }}/{{ d.name | uri_escape }}/" class="region-btn">
+      <span class="region-icon">🏘️</span>{{ d.name }}
+      <div class="region-count">학교 {{ d.schools }} · 단지 {{ d.apts }}</div>
+    </a>
+    {% endfor %}
+  </div>
+
+  <div class="tip-box">
+    <h2>{{ page.sigungu }} 학군을 볼 때 확인하세요</h2>
+    <p>직선거리는 참고용이며 실제 학교 배정은 통학구역에 따라 달라집니다. 관심 단지의 상세 페이지에서 가까운 초·중·고 학교와 거리를 확인하고, 계약 전에 관할 교육지원청에서 배정 학교를 확인하세요.</p>
+    <p class="hub-links" style="margin-top:10px;"><a href="/region/{{ page.doShort | uri_escape }}/">{{ page.doShort }} 전체 →</a> <a href="/guide/">학군 고르는 방법 →</a></p>
+  </div>
+
+</div>
+<aside class="tool-sidebar"></aside>
+</div>

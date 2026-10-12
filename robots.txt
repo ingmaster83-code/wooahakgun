@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://wooahakgun.wooahouse.com/sitemap.xml

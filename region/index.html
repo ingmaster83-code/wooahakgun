@@ -1,0 +1,22 @@
+---
+layout: default
+title: 지역별 학군·초품아 아파트 - 시도별 학교와 아파트
+description: 시/도별 초·중·고등학교와 아파트 단지, 초품아 단지 현황. 서울, 경기, 부산 등 지역별로 학군 정보를 확인하세요.
+---
+
+<div class="page-with-sidebar" style="margin-top:20px;">
+<div class="side-main">
+<div class="section">
+  <nav class="breadcrumb"><a href="/">홈</a> <span>›</span> <span>지역별 학군</span></nav>
+  <h1 style="font-size:1.6rem;font-weight:800;margin:20px 0 8px;">📍 지역별 학군·초품아 아파트</h1>
+  <p style="color:#6B7280;margin-bottom:32px;">시/도를 선택하세요</p>
+
+  <div class="region-grid">
+    {% for d in site.data.hak_stats.do_rows %}<a href="/region/{{ d.name | uri_escape }}/" class="region-btn"><span class="region-icon">🏫</span>{{ d.name }}
+      <div class="region-count">학교 {{ d.schools }} · 단지 {{ d.apts }}{% if d.chop != "0" %} · 초품아 {{ d.chop }}{% endif %}</div></a>
+    {% endfor %}
+  </div>
+</div>
+</div>
+<aside class="tool-sidebar"></aside>
+</div>

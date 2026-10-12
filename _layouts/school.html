@@ -1,0 +1,86 @@
+---
+layout: default
+---
+
+<div class="page-with-sidebar">
+<div class="region-page">
+
+  <nav class="breadcrumb" aria-label="위치">
+    <a href="/">홈</a>
+    <span>›</span>
+    <a href="/region/{{ page.doShort | uri_escape }}/">{{ page.doShort }}</a>
+    <span>›</span>
+    <a href="/region/{{ page.doShort | uri_escape }}/{{ page.sigungu | uri_escape }}/">{{ page.sigungu }}</a>
+    {% if page.dong != "" %}<span>›</span>
+    <a href="/region/{{ page.doShort | uri_escape }}/{{ page.sigungu | uri_escape }}/{{ page.dong | uri_escape }}/">{{ page.dong }}</a>{% endif %}
+    <span>›</span>
+    <span>{{ page.schoolName }}</span>
+  </nav>
+
+  <div class="region-page-header">
+    <h1>🏫 {{ page.schoolName }} 주변 아파트</h1>
+    <p>{{ page.level }} · {{ page.type }} · {{ page.doShort }} {{ page.sigungu }} {{ page.dong }}</p>
+  </div>
+
+  <p class="summary-p">{{ page.summary }}</p>
+
+  <div class="info-box">
+    ℹ️ 거리는 학교와 단지 사이의 <b>직선거리</b>이고, 도보 시간은 직선거리 기준 추정치입니다. 실제 학교 배정(통학구역)은 교육지원청 고시에 따르므로 입주·계약 전에 꼭 확인하세요.
+  </div>
+
+  <div class="ad-slot">
+    {% include ad.html %}
+  </div>
+
+  <h2 class="group-title">📍 학교 정보</h2>
+  <div class="spec-grid">
+    <div class="spec-item"><div class="spec-label">학교급</div><div class="spec-value">{{ page.level }}</div></div>
+    <div class="spec-item"><div class="spec-label">설립</div><div class="spec-value">{{ page.type }}</div></div>
+    {% if page.founded != "" %}<div class="spec-item"><div class="spec-label">설립일</div><div class="spec-value">{{ page.founded }}</div></div>{% endif %}
+    <div class="spec-item"><div class="spec-label">관할</div><div class="spec-value">{{ page.office }}</div></div>
+    <div class="spec-item spec-wide"><div class="spec-label">도로명주소</div><div class="spec-value">{{ page.road }}</div></div>
+    <div class="spec-item spec-wide"><div class="spec-label">지번주소</div><div class="spec-value">{{ page.jibun }}</div></div>
+  </div>
+
+  {% if page.rows.size > 0 %}
+  <h2 class="group-title">🏢 {{ page.schoolName }} 반경 1km 아파트 {{ page.n1k }}곳 <small style="font-weight:500;color:#6B7280;">(500m 이내 {{ page.n500 }}곳)</small></h2>
+  <div class="tbl-wrap"><table class="trade-tbl">
+    <thead><tr><th>단지</th><th>직선거리</th><th>도보(추정)</th><th>세대수</th><th>준공</th><th>대표 평형 평균 매매가</th><th>시세</th></tr></thead>
+    <tbody>
+    {% for r in page.rows %}<tr><td><a href="{{ r.url }}">{{ r.name }}</a><br><small style="color:#6B7280;">{{ r.loc }}</small></td><td>{{ r.dist }}</td><td>약 {{ r.walk }}분</td><td>{% if r.ho > 0 %}{{ r.ho }}세대{% else %}-{% endif %}</td><td>{% if r.by > 0 %}{{ r.by }}년{% else %}-{% endif %}</td><td>{{ r.rep }}</td><td><a href="{{ r.aaptUrl }}">실거래가 →</a></td></tr>
+    {% endfor %}
+    </tbody>
+  </table></div>
+  {% endif %}
+
+  {% if page.nearSchools.size > 0 %}
+  <h2 class="group-title">🏫 가까운 같은 급 학교</h2>
+  <ul class="food-list">
+    {% for t in page.nearSchools %}<li class="food-row"><div class="fr-main"><b><a href="{{ t.url }}" style="color:inherit;">{{ t.name }}</a></b><small>{{ t.type }} · 직선 {{ t.dist }}</small></div><a class="fr-map" href="{{ t.url }}">보기</a></li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+
+  {% if page.sameDong.size > 0 %}
+  <h2 class="group-title">📚 {{ page.dong }}의 다른 학교</h2>
+  <div class="chip-row">
+    {% for t in page.sameDong %}<a class="chip" href="{{ t.url }}">{{ t.name }}<em>{{ t.level }}</em></a>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  {% include faq.html %}
+
+  <div class="tip-box">
+    <h2>학교 주변 아파트를 볼 때 확인하세요</h2>
+    <ul>
+      <li>학교 배정은 거리가 아니라 <strong>통학구역</strong>으로 정해집니다. 관할 교육지원청({{ page.office }})에 문의하거나 학구도 안내서비스에서 확인하세요.</li>
+      <li>단지와 학교 사이에 큰 도로·철도·하천이 있으면 직선거리보다 실제 통학 거리가 훨씬 길 수 있습니다.</li>
+      <li>신규 입주 단지는 학생 수가 늘어 학교 배정과 과밀 여부가 달라질 수 있습니다.</li>
+    </ul>
+    <p class="hub-links" style="margin-top:10px;"><a href="/region/{{ page.doShort | uri_escape }}/{{ page.sigungu | uri_escape }}/">{{ page.sigungu }} 학군·초품아 보기 →</a> <a href="/chopuma/">초품아 아파트 전체 →</a> <a href="/guide/">학군 고르는 방법 →</a></p>
+  </div>
+
+</div>
+<aside class="tool-sidebar"></aside>
+</div>
