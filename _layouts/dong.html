@@ -60,7 +60,7 @@ layout: default
   <div class="tip-box">
     <h2>{{ page.dong }} 학군 확인 안내</h2>
     <p>거리는 직선거리 기준 참고 정보입니다. 실제 학교 배정은 교육지원청이 고시한 통학구역에 따라 달라지니 입주·계약 전에 관할 교육지원청에서 확인하세요.</p>
-    <p class="hub-links" style="margin-top:10px;"><a href="/region/{{ page.doShort | uri_escape }}/{{ page.sigungu | uri_escape }}/">{{ page.sigungu }} 전체 →</a> <a href="https://wooaapt.wooahouse.com/region/{{ page.doShort | uri_escape }}/{{ page.sigungu | uri_escape }}/{{ page.dong | uri_escape }}/">{{ page.dong }} 아파트 실거래가 →</a></p>
+    <p class="hub-links" style="margin-top:10px;"><a href="/region/{{ page.doShort | uri_escape }}/{{ page.sigungu | uri_escape }}/">{{ page.sigungu }} 전체 →</a> {% assign ikey = page.doShort | append: "|" | append: page.sigungu | append: "|" | append: page.dong %}{% assign ipath = site.data.ingu_slugs.dong[ikey] %}{% assign iskey = page.doShort | append: "|" | append: page.sigungu %}{% assign isg = site.data.ingu_slugs.sg[iskey] %}{% if ipath %}<a href="https://wooaingu.wooahouse.com/{{ ipath }}/">{{ page.dong }} 인구·세대수 →</a> {% elsif isg %}<a href="https://wooaingu.wooahouse.com/{{ isg }}/">{{ page.sigungu }} 인구·세대수 →</a> {% endif %}<a href="https://wooaapt.wooahouse.com/region/{{ page.doShort | uri_escape }}/{{ page.sigungu | uri_escape }}/{{ page.dong | uri_escape }}/">{{ page.dong }} 아파트 실거래가 →</a></p>
   </div>
 
 </div>

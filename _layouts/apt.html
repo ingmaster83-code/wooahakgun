@@ -57,7 +57,7 @@ layout: default
       {% if page.rep %}<li>{{ page.rep }}</li>{% endif %}
     </ul>
     <p style="margin-top:10px;"><a class="fr-map" href="{{ page.aaptUrl }}" style="display:inline-block;padding:9px 14px;">📈 우아아파트에서 실거래가·전월세·관리비 보기 →</a></p>
-    <p class="hub-links" style="margin-top:10px;"><a href="/region/{{ page.doShort | uri_escape }}/{{ page.sigungu | uri_escape }}/">{{ page.sigungu }} 학군 보기 →</a> <a href="/chopuma/{{ page.doShort | uri_escape }}/">{{ page.doShort }} 초품아 아파트 →</a></p>
+    <p class="hub-links" style="margin-top:10px;"><a href="/region/{{ page.doShort | uri_escape }}/{{ page.sigungu | uri_escape }}/">{{ page.sigungu }} 학군 보기 →</a> {% assign ikey = page.doShort | append: "|" | append: page.sigungu | append: "|" | append: page.dong %}{% assign ipath = site.data.ingu_slugs.dong[ikey] %}{% assign iskey = page.doShort | append: "|" | append: page.sigungu %}{% assign isg = site.data.ingu_slugs.sg[iskey] %}{% if ipath %}<a href="https://wooaingu.wooahouse.com/{{ ipath }}/">{{ page.dong }} 인구·세대수 →</a> {% elsif isg %}<a href="https://wooaingu.wooahouse.com/{{ isg }}/">{{ page.sigungu }} 인구·세대수 →</a> {% endif %}<a href="/chopuma/{{ page.doShort | uri_escape }}/">{{ page.doShort }} 초품아 아파트 →</a></p>
   </div>
 
   {% include faq.html %}
