@@ -1,0 +1,12 @@
+{% assign xr = site.data.xregion[page.doShort][include.key] %}{% if xr %}
+<div style="margin:24px 0;padding:18px 20px;border:1px solid #E5E7EB;border-radius:12px;background:#F9FAFB;">
+  <h2 style="font-size:1.05rem;font-weight:700;margin:0 0 6px;">🧭 {{ page.sigungu }} 아이 키우는 정보 더 보기</h2>
+  <p style="font-size:.88rem;line-height:1.7;color:#374151;margin:0 0 10px;">같은 지역의 학교 급식, 학군·초품아 아파트, 학원, 유치원 정보를 이어서 확인할 수 있어요.</p>
+  <div style="display:flex;flex-wrap:wrap;gap:8px;">
+    {% for s in xr.meal %}<a href="https://wooameal.wooahouse.com/region/{{ page.doShort | uri_escape }}/{{ s | uri_escape }}/" style="display:inline-block;padding:7px 14px;border:1.5px solid #D1D5DB;border-radius:20px;background:#fff;font-size:.84rem;font-weight:600;text-decoration:none;color:inherit;">🍚 {{ s }} 학교 급식 →</a>{% endfor %}
+    {% for s in xr.hakgun %}<a href="https://wooahakgun.wooahouse.com/region/{{ page.doShort | uri_escape }}/{{ s | uri_escape }}/" style="display:inline-block;padding:7px 14px;border:1.5px solid #D1D5DB;border-radius:20px;background:#fff;font-size:.84rem;font-weight:600;text-decoration:none;color:inherit;">🏫 {{ s }} 학군·초품아 →</a>{% endfor %}
+    {% for s in xr.hagwon %}<a href="https://wooahagwon.wooahouse.com/region/{{ page.doShort | uri_escape }}/{{ s | uri_escape }}/" style="display:inline-block;padding:7px 14px;border:1.5px solid #D1D5DB;border-radius:20px;background:#fff;font-size:.84rem;font-weight:600;text-decoration:none;color:inherit;">📚 {{ s }} 학원 →</a>{% endfor %}
+    {% for s in xr.kinder %}<a href="https://wooakinder.wooahouse.com/region/{{ page.doShort | uri_escape }}/{{ s | uri_escape }}/" style="display:inline-block;padding:7px 14px;border:1.5px solid #D1D5DB;border-radius:20px;background:#fff;font-size:.84rem;font-weight:600;text-decoration:none;color:inherit;">🧸 {{ s }} 유치원 →</a>{% endfor %}
+  </div>
+</div>
+{% endif %}
